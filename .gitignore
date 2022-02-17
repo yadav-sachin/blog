@@ -14,3 +14,6 @@ _notebooks/.ipynb_checkpoints
 __pycache__
 Gemfile.lock
 settings.ini
+
+#Locally built _posts
+_posts/

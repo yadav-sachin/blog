@@ -1,13 +1,24 @@
 {
   
     
+        "post0": {
+            "title": "Machine Learning Quiz 2 Practice",
+            "content": "import numpy as np import pandas as pd import torch . Maths for ML . Given a vector $ epsilon$, we can calculate $ sum epsilon_{i}^{2}$ using $ epsilon^{T} epsilon$ | y = np.array([1.3, 2.5, 6.4, 8.1, 9.0]).reshape(-1, 1) y_hat = np.array([1.5, 2.0, 5.9, 8.5, 9.0]).reshape(-1, 1) epsilon = np.abs(y - y_hat) epsilon_square_sum1 = np.sum(epsilon**2) epsilon_square_sum2 = (epsilon.T @ epsilon).item() assert np.allclose(epsilon_square_sum1, epsilon_square_sum2) . 👍 works! . $(AB)^{T} = B^{T}A^{T}$ | A = np.random.randn(50, 10) B = np.random.randn(10, 20) ab_t = (A @ B).T b_t_a_t = B.T @ A.T assert np.allclose(ab_t, b_t_a_t) . 🙄 Knew it already! . For a scalar $s$, $s = s^{T}$ | Derivative of scalar $s$ with respect to (yes!, I wrote wrt as full here 😁) vector $ theta$ $$ theta = begin{bmatrix} theta_{1} theta_{2} vdots theta{n} end{bmatrix}$$ $$ frac{ partial s}{ partial theta} = begin{bmatrix} frac{ partial s}{ partial theta_{1}} frac{ partial s}{ partial theta_{2}} frac{ partial s}{ partial theta_{3}} vdots frac{ partial s}{ partial theta_{n}} end{bmatrix} $$ | If $A$ is a matrix and $ theta$ is a vector, and $A theta$ is a scalar. Then $$ frac{ partial A theta}{ partial theta} = A^{T} $$ | 🤔 Taking some similarity with $a theta$, where both $a$ and $ theta$ are scalar, I have an idea that it would be A. But shape of gradient would be $N times 1$, so $A^{T}$ is my guess before starting any calculations. . N = 20 # as A $ theta$ is scalar, so A.shape[0] should be 1. A = torch.randn((1, N)) theta = torch.randn((N, 1), requires_grad=True) scalar = A @ theta scalar.backward() assert torch.allclose(theta.grad, A.T) . 👍 all good . Assume $Z$ is a matrix of form $X^{T}X$, then $$ frac{ partial ( theta^{T}Z theta)}{ partial theta} = 2Z^{T} theta$$ | 🤔 Let me again make a good guess before any calculation, if $ theta$ and $Z$ are both scaler, then the derivative would look like $2Z theta$. So my guess would $2Z theta$, which is equal to $2Z^{T} theta$ as both are $Z$ is symmetric. . X = torch.randn((N, N)) Z = X.T @ X theta = torch.randn((N, 1), requires_grad=True) scalar = theta.T @ Z @ theta scalar.backward() assert torch.allclose(theta.grad, 2 * Z.T @ theta) . 👍 good . Let&#39;s skip over the content of Rank topic for now. . The maximum rank possible for a matrix is $max(R, C)$ . But an interesting question would be 🤔, what is the minimum rank possible for a matrix, is it 0, is it 1? . Ans: Rank is zero, in case of zero matrix. . Just a leaving thought, if I would have been a developer of Numpy, I would not have allowed np.eye as the method for identity matrix. Better to use np.identity only. 😞 . Linear Regression .",
+            "url": "https://yadav-sachin.github.io/blog/mlcourse2022/2022/02/17/machine-learning-quiz2-practice.html",
+            "relUrl": "/mlcourse2022/2022/02/17/machine-learning-quiz2-practice.html",
+            "date": " • Feb 17, 2022"
+        }
+        
+    
+  
+    
   
 
   
   
 
   
-      "page1": {
+      ,"page1": {
           "title": "About Me",
           "content": "This website is powered by fastpages 1. . a blogging platform that natively supports Jupyter notebooks in addition to other formats. &#8617; . |",
           "url": "https://yadav-sachin.github.io/blog/about/",

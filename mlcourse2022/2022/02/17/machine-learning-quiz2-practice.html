@@ -14,12 +14,14 @@
 <link rel="canonical" href="https://yadav-sachin.github.io/blog/mlcourse2022/2022/02/17/machine-learning-quiz2-practice.html" />
 <meta property="og:url" content="https://yadav-sachin.github.io/blog/mlcourse2022/2022/02/17/machine-learning-quiz2-practice.html" />
 <meta property="og:site_name" content="Sachin Yadav" />
+<meta property="og:image" content="https://c.tenor.com/cu2Gonk18tEAAAAC/nerd-sponge-bob.gif" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-02-17T00:00:00-06:00" />
-<meta name="twitter:card" content="summary" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://c.tenor.com/cu2Gonk18tEAAAAC/nerd-sponge-bob.gif" />
 <meta property="twitter:title" content="Machine Learning Quiz 2 Practice" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sachin Yadav"},"dateModified":"2022-02-17T00:00:00-06:00","datePublished":"2022-02-17T00:00:00-06:00","description":"Sachin Yadav’s blog.","headline":"Machine Learning Quiz 2 Practice","mainEntityOfPage":{"@type":"WebPage","@id":"https://yadav-sachin.github.io/blog/mlcourse2022/2022/02/17/machine-learning-quiz2-practice.html"},"url":"https://yadav-sachin.github.io/blog/mlcourse2022/2022/02/17/machine-learning-quiz2-practice.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sachin Yadav"},"dateModified":"2022-02-17T00:00:00-06:00","datePublished":"2022-02-17T00:00:00-06:00","description":"Sachin Yadav’s blog.","headline":"Machine Learning Quiz 2 Practice","image":"https://c.tenor.com/cu2Gonk18tEAAAAC/nerd-sponge-bob.gif","mainEntityOfPage":{"@type":"WebPage","@id":"https://yadav-sachin.github.io/blog/mlcourse2022/2022/02/17/machine-learning-quiz2-practice.html"},"url":"https://yadav-sachin.github.io/blog/mlcourse2022/2022/02/17/machine-learning-quiz2-practice.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://yadav-sachin.github.io/blog/feed.xml" title="Sachin Yadav" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" /><script src="https://hypothes.is/embed.js" async></script>
@@ -98,7 +100,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      5 min read
+      11 min read
     
 </span></p>
 
@@ -144,9 +146,31 @@ window.onload = wrap_img;
   <div class="post-content e-content" itemprop="articleBody">
     <ul id="toc" class="section-nav">
 <li class="toc-entry toc-h2"><a href="#Maths-for-ML">Maths for ML </a></li>
-<li class="toc-entry toc-h2"><a href="#Linear-Regression-Introduction">Linear Regression Introduction </a>
+<li class="toc-entry toc-h2"><a href="#Introduction-to-Linear-Regression">Introduction to Linear Regression </a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#Normal-Equation">Normal Equation </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Geometric-Interpretation-of-Linear-Regression">Geometric Interpretation of Linear Regression </a></li>
+<li class="toc-entry toc-h2"><a href="#Linear-Regression">Linear Regression </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Relation-between-#samples-and-#features-in-Linear-Regression">Relation between #samples and #features in Linear Regression </a></li>
+<li class="toc-entry toc-h3"><a href="#Variable-Transformation">Variable Transformation </a></li>
+<li class="toc-entry toc-h3"><a href="#Multi-collinearity">Multi-collinearity </a></li>
+<li class="toc-entry toc-h3"><a href="#Dummy-Variables">Dummy Variables </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Convexity">Convexity </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Prove-$f(x)-=-x^{2}$-is-Convex">Prove $f(x) = x^{2}$ is Convex </a></li>
+<li class="toc-entry toc-h3"><a href="#Double-Derivative-Test">Double-Derivative Test </a></li>
+<li class="toc-entry toc-h3"><a href="#Convexity-of-Least-Squares-in-Linear-Regression">Convexity of Least Squares in Linear Regression </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Gradient-Descent">Gradient Descent </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Contour-Plots-and-Gradients">Contour Plots and Gradients </a></li>
+<li class="toc-entry toc-h3"><a href="#Algorithm">Algorithm </a></li>
 </ul>
 </li>
 </ul><!--
@@ -187,23 +211,6 @@ window.onload = wrap_img;
     
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
 <details class="description">
       <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
         <p></p>
@@ -211,8 +218,8 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -q blackcellmagic
-<span class="o">%</span><span class="k">load_ext</span> blackcellmagic
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -220,20 +227,6 @@ window.onload = wrap_img;
 </div>
 
     </details>
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Note: you may need to restart the kernel to use updated packages.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
     
 
@@ -289,14 +282,6 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>👍 works!</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <ol>
 <li>$(AB)^{T} = B^{T}A^{T}$</li>
 </ol>
@@ -330,14 +315,6 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>🙄 Knew it already!</p>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -408,14 +385,6 @@ $$ \frac{\partial A \theta}{\partial \theta} = A^{T} $$</li>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>👍 all good</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <ol>
 <li>Assume $Z$ is a matrix of form $X^{T}X$, then 
 $$ \frac{\partial (\theta^{T}Z\theta)}{\partial \theta} = 2Z^{T}\theta$$</li>
@@ -456,14 +425,6 @@ $$ \frac{\partial (\theta^{T}Z\theta)}{\partial \theta} = 2Z^{T}\theta$$</li>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>👍 good</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's skip over the content of Rank topic for now.</p>
 
 </div>
@@ -490,8 +451,8 @@ $$ \frac{\partial (\theta^{T}Z\theta)}{\partial \theta} = 2Z^{T}\theta$$</li>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Linear-Regression-Introduction">
-<a class="anchor" href="#Linear-Regression-Introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Linear Regression Introduction<a class="anchor-link" href="#Linear-Regression-Introduction"> </a>
+<h2 id="Introduction-to-Linear-Regression">
+<a class="anchor" href="#Introduction-to-Linear-Regression" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction to Linear Regression<a class="anchor-link" href="#Introduction-to-Linear-Regression"> </a>
 </h2>
 </div>
 </div>
@@ -579,7 +540,7 @@ $$ \hat{y} = X \theta $$
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">weight_height_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-    <span class="s2">"assets/2022-02-17-machine-learning-quiz2-practice/weight-height.csv"</span>
+    <span class="s2">"https://raw.githubusercontent.com/yadav-sachin/blog/master/_notebooks/assets/2022-02-17-machine-learning-quiz2-practice/weight-height.csv"</span>
 <span class="p">)</span>
 <span class="c1"># take 30 points</span>
 <span class="n">sampled_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">weight_height_df</span><span class="p">)),</span> <span class="n">size</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -664,6 +625,285 @@ $$\frac{\partial (\epsilon^{T} \epsilon)}{\partial \theta} = -2X^{T}y + 2X^{T}X\
 
 $$ \theta^{*} = (X^{T}X)^{-1}X^{T}y$$
 </p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Geometric-Interpretation-of-Linear-Regression">
+<a class="anchor" href="#Geometric-Interpretation-of-Linear-Regression" aria-hidden="true"><span class="octicon octicon-link"></span></a>Geometric Interpretation of Linear Regression<a class="anchor-link" href="#Geometric-Interpretation-of-Linear-Regression"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We have $\hat{y} = X\theta$, where $X$ is shape of $(N \times M)$, where $M$ is #features and $N$ is #samples.</p>
+<p>When we multiply $X$ with column vector $\theta$, the get a column vector which is the linear combination of the columns of matrix $X$. The linear combination, the coeffients of combination are decided by the parameters in $\theta$. So $X\theta$ lies in the span of columns of X.</p>
+<p>Our objective is to get a $\theta$ to minimize $\mathopen|| y - X\theta \mathclose||$.</p>
+<p>The span of columns of $X$ would be a plane in $N$ dimensional space, $X\theta$ lies on this plane. So the least distance, is when the $X\theta - y$ is perpendicular to this plane (span of columns of $X$).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Therefore $(y - \hat{y}) \bot (x_{j}) \forall j$
+
+$$X^{T} (y - X\theta^{*}) = 0$$
+
+We get, 
+
+$$\theta^{*} = (X^{T}X)^{-1}X^{T}y$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Linear-Regression">
+<a class="anchor" href="#Linear-Regression" aria-hidden="true"><span class="octicon octicon-link"></span></a>Linear Regression<a class="anchor-link" href="#Linear-Regression"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Relation-between-#samples-and-#features-in-Linear-Regression">
+<a class="anchor" href="#Relation-between-#samples-and-#features-in-Linear-Regression" aria-hidden="true"><span class="octicon octicon-link"></span></a>Relation between #samples and #features in Linear Regression<a class="anchor-link" href="#Relation-between-#samples-and-#features-in-Linear-Regression"> </a>
+</h3>
+<p>Let $N$ be number of samples and $M$ be the number of variables/features.</p>
+<p><strong>Under-determined system</strong>: In Linear Algebra, if we have $N$ equations with $M$ variables and $N &lt; M$, then it is called an under-determined system. In this case, we will have infinite solutions.</p>
+<p><strong>Over-determined sytem</strong>: When $N &gt; M$, the system is over-determined. In this case the sum of residuals $\sum \mathopen| \epsilon_{i} \mathclose| &gt; 0$, in most cases unless we are able to get perfect fit.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Variable-Transformation">
+<a class="anchor" href="#Variable-Transformation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Variable Transformation<a class="anchor-link" href="#Variable-Transformation"> </a>
+</h3>
+<p>In case the output does not seem like a linear combination of the variables, we can also use the higher powers of variables in the linear combination.</p>
+<p>We can also use other transformations like logarithm, multiples of more than one variable, etc. And we would still call it "Linear" Regression, as we are here talking about the linearity in coefficients/parameter space ($\theta$).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Multi-collinearity">
+<a class="anchor" href="#Multi-collinearity" aria-hidden="true"><span class="octicon octicon-link"></span></a>Multi-collinearity<a class="anchor-link" href="#Multi-collinearity"> </a>
+</h3>
+<p>There can be situations when $X^{T}X$ is a singular matrix. such as 
+$$ X = \begin{bmatrix} 
+1 &amp; 1 &amp; 2 \\
+1 &amp; 2 &amp; 4 \\
+1 &amp; 3 &amp; 6 
+\end{bmatrix}$$
+For 
+$$\begin{bmatrix} x_{1} &amp; x_{2} &amp; y \\
+1 &amp; 2 &amp; 4 \\
+2 &amp; 4 &amp; 6 \\
+3 &amp; 6 &amp; 8 \end{bmatrix} $$</p>
+<p>In this case, a perfect fit is not possible.</p>
+<p>In case, we still want to use the normal equation. 
+The ways are:</p>
+<ul>
+<li>Regularise: We can add some jitter/noise to the diagonal values and make it invertible.</li>
+<li>Drop Variables: As here in this case, $x_{2} = 2 * x_{1}$, so we may drop either one of these variables.</li>
+<li>Using different subsets of the data samples might work</li>
+<li>Avoid dummy variable trap</li>
+</ul>
+<p>This problem also arises due to dummy variable trap.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Dummy-Variables">
+<a class="anchor" href="#Dummy-Variables" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dummy Variables<a class="anchor-link" href="#Dummy-Variables"> </a>
+</h3>
+<p>Let's assume if we have a categorical variable in linear regression setup, where the air pollution is a function of (#Vehicles, Wind-speed and Wind-direction). As we cannot give categorical values, we need to have corresponding numerical values.</p>
+<p>Such as if we have <code>wind-direction</code>, there are 4 categories of this variables namely <code>North</code>, <code>West</code>, <code>East</code> and <code>South</code>.
+If we go ahead and numerically encode them, <code>North</code> values become $0$, <code>West</code> values become $1$ and so on.</p>
+<p>The problem here is that we cannot assign such numerical ordering to the categories, as numerical categories have comparion in case of values. Such as $2$ = $2 \times 1$, but is contribution due to  <code>West</code> = $2 \times$ <code>North</code></p>
+<p><strong>N-1 Variable Encoding</strong>: Then to avoid this problem, we use <strong>$C-1$ variable encodings</strong>, where $C$ is the number of the categories of the categorical variable.
+The logic is that, to specify the class of the sample, I need to ask at least $C-1$ binary questions.</p>
+<ul>
+<li>Is it Class $1$?</li>
+<li>Is it Class $2$?</li>
+<li>$\vdots$</li>
+<li>Is it Class $C-1$?</li>
+</ul>
+<p><strong>One-hot Variable Encoding</strong>: I can ask $C$ binary questions.</p>
+<ul>
+<li>Is it Class $1$?</li>
+<li>Is it Class $2$?</li>
+<li>$\vdots$</li>
+<li>Is it Class $C - 1$?</li>
+<li>Is it Class $C$?</li>
+</ul>
+<p><strong>But which one is better?</strong>
+The $C_{th}$ class variable is redundant, as we can determine its values based on $C-1$ class variables.</p>
+<p>So One-hot encoding can cause multi-collinearity in Linear Regression, as one of the added variables is redundant and dependent on other variables.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Convexity">
+<a class="anchor" href="#Convexity" aria-hidden="true"><span class="octicon octicon-link"></span></a>Convexity<a class="anchor-link" href="#Convexity"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Convexity defined over an interval $[\alpha, \beta]$, is such that the line segment joining two points $(a, f(a))$, $(b, f(b))$ is above or on the function for all points between in $[a, b]$, given $\alpha \leq a, b \leq \beta$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>One of the problem I noticed is that students/people are just giving out more complex definitions of "convexity", which makes the things look complex but are actually very simple. So let's not discuss: other definitions reducing distance, Rolle's theroem, etc. and keep the definition simple.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Prove-$f(x)-=-x^{2}$-is-Convex">
+<a class="anchor" href="#Prove-%24f(x)-=-x%5E%7B2%7D%24-is-Convex" aria-hidden="true"><span class="octicon octicon-link"></span></a>Prove $f(x) = x^{2}$ is Convex<a class="anchor-link" href="#Prove-%24f(x)-=-x%5E%7B2%7D%24-is-Convex"> </a>
+</h3>
+<p>Let the two chosen points are $(a, f(a))$ and $(b, f(b))$.</p>
+<p>Then any point on the line segment joining the points can be described as $$(t \times a + (1 - t) \times b, t\times f(a) + (1 - t) \times f(b))$$</p>
+<p>the corresponding point on the curve at the same $x$-coordinate is 
+$$(t \times a + (1 - t) \times b, f(t \times a + (1 - t) \times b))$$ 
+here $ 0 &lt; t &lt; 1$</p>
+<p>The difference in $y$ is:
+
+$$t(1-t)(a - b)^{2}$$
+
+which is greater than or equal to zero. Hence the line-segment is always above the function in all points between $a$ and $b$. So function is convex.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Double-Derivative-Test">
+<a class="anchor" href="#Double-Derivative-Test" aria-hidden="true"><span class="octicon octicon-link"></span></a>Double-Derivative Test<a class="anchor-link" href="#Double-Derivative-Test"> </a>
+</h3>
+<p>If double-derivative wrt x &gt; 0, then convex.</p>
+<p><strong>Double-Derivative Test for multi-parameter function</strong>
+It is equal to Hessian matrix. 
+A function $f(x_{1}, x_{2}, x_{3}, \ldots, x_{n})$ is convex iff Hessian Matrix is positive semidefinite for all possible values of $(x_{1}, x_{2}, x_{3}, \ldots, x_{n})$.</p>
+$$(Hess f)_{ij} \equiv \frac{\partial^{2} f}{\partial x_{i} \partial x_{j} } $$<p>
+The Hessian matrix is of shape $(N \times N)$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let $f(x_{1}, x_{2}) = x_{1}^{2} + x_{2}^{2}$</p>
+<p>
+$$ Hess(f) = \begin{bmatrix} 2 &amp; 0 \\ 0 &amp; 2 \end{bmatrix} $$
+
+This is positive semidefinite, so $x_{1}^{2} + x_{2}^{2}$ is convex function.
+</p>
+<div class="flash flash-success">
+    <svg class="octicon octicon-checklist" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M2.5 1.75a.25.25 0 01.25-.25h8.5a.25.25 0 01.25.25v7.736a.75.75 0 101.5 0V1.75A1.75 1.75 0 0011.25 0h-8.5A1.75 1.75 0 001 1.75v11.5c0 .966.784 1.75 1.75 1.75h3.17a.75.75 0 000-1.5H2.75a.25.25 0 01-.25-.25V1.75zM4.75 4a.75.75 0 000 1.5h4.5a.75.75 0 000-1.5h-4.5zM4 7.75A.75.75 0 014.75 7h2a.75.75 0 010 1.5h-2A.75.75 0 014 7.75zm11.774 3.537a.75.75 0 00-1.048-1.074L10.7 14.145 9.281 12.72a.75.75 0 00-1.062 1.058l1.943 1.95a.75.75 0 001.055.008l4.557-4.45z"></path></svg>
+    <strong>Tip: </strong>A quick way to check if a matrix is semi-positive definite is that you take determinant of 1X1, 2X2, ..., NXN upper sub-matrices containing the first pivot point and check if greater than or equal to zero.
+</div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Convexity-of-Least-Squares-in-Linear-Regression">
+<a class="anchor" href="#Convexity-of-Least-Squares-in-Linear-Regression" aria-hidden="true"><span class="octicon octicon-link"></span></a>Convexity of Least Squares in Linear Regression<a class="anchor-link" href="#Convexity-of-Least-Squares-in-Linear-Regression"> </a>
+</h3>
+<p>
+$$f(\theta) = \mathopen|| y - X\theta \mathclose||^{2}$$
+
+This is equal to $y y^{T} - 2 y^{T}X\theta + \theta^{T}X^{T}X\theta$.</p>
+<p>We double differentiate it and get $X^{T}X$, which is a positive semidefinite matrix.</p>
+<p>So this is where we connect convexity to Linear Regression.</p>
+<p><img src="https://media1.giphy.com/media/rOEvmLAxxcE1i/giphy.gif" alt='"Spongebob: Excited"'></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If $f(x)$ and $g(x)$ is convex,</p>
+<ul>
+<li>$f(x) + g(x)$ is convex.</li>
+<li>$kf(x)$ is convex, for $k \geq 0$.</li>
+</ul>
+<p>Convex function has this unique property of having a unique minima, which is the global minima.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Gradient-Descent">
+<a class="anchor" href="#Gradient-Descent" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gradient Descent<a class="anchor-link" href="#Gradient-Descent"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Contour-Plots-and-Gradients">
+<a class="anchor" href="#Contour-Plots-and-Gradients" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contour Plots and Gradients<a class="anchor-link" href="#Contour-Plots-and-Gradients"> </a>
+</h3>
+<p>Gradients is the direction for maximum increase in the function value.</p>
+<p>To decrease the value of the function the most, we move in the opposite direction of gradient (negative of gradient vector).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Algorithm">
+<a class="anchor" href="#Algorithm" aria-hidden="true"><span class="octicon octicon-link"></span></a>Algorithm<a class="anchor-link" href="#Algorithm"> </a>
+</h3>
+<ul>
+<li>Start with some $x_{0}$</li>
+<li>Till convergence or iterations exhausted<ul>
+<li>$x_{i} = x_{i - 1} - \alpha\frac{\partial f(x)}{\partial x}$, $\alpha$ is the step-size or learning-rate</li>
+</ul>
+</li>
+</ul>
 
 </div>
 </div>

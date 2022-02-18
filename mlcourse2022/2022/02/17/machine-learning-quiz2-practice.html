@@ -98,7 +98,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      2 min read
+      4 min read
     
 </span></p>
 
@@ -157,6 +157,9 @@ window.onload = wrap_img;
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
@@ -170,6 +173,7 @@ window.onload = wrap_img;
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -195,11 +199,15 @@ window.onload = wrap_img;
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.3</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">6.4</span><span class="p">,</span> <span class="mf">8.1</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># As per the convention we take epsilon to be a 2D column vector</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.3</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">6.4</span><span class="p">,</span> <span class="mf">8.1</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">y_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">5.9</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
 <span class="n">epsilon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y_hat</span><span class="p">)</span>
@@ -214,6 +222,7 @@ window.onload = wrap_img;
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -238,6 +247,9 @@ window.onload = wrap_img;
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
@@ -254,6 +266,7 @@ window.onload = wrap_img;
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -308,6 +321,9 @@ $$ \frac{\partial A \theta}{\partial \theta} = A^{T} $$</li>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
@@ -325,6 +341,7 @@ $$ \frac{\partial A \theta}{\partial \theta} = A^{T} $$</li>
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -351,6 +368,9 @@ $$ \frac{\partial (\theta^{T}Z\theta)}{\partial \theta} = 2Z^{T}\theta$$</li>
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
 <div class="input">
 
 <div class="inner_cell">
@@ -369,6 +389,7 @@ $$ \frac{\partial (\theta^{T}Z\theta)}{\partial \theta} = 2Z^{T}\theta$$</li>
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -415,6 +436,342 @@ $$ \frac{\partial (\theta^{T}Z\theta)}{\partial \theta} = 2Z^{T}\theta$$</li>
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Considering <code>weight</code> as a linear function of <code>height</code>:</p>
+<ul>
+<li>$weight_{1} \approx \theta_{0} + \theta_{1} * height_{1}$</li>
+<li>$weight_{2} \approx \theta_{0} + \theta_{1} * height_{2}$</li>
+<li>$weight_{N} \approx \theta_{0} + \theta_{1} * height_{N}$</li>
+</ul>
+<p>
+$$ W_{N\times1} = X_{N\times2} \, \theta_{2\times1} $$
+
+where the feature matrix $X$, $X = \begin{bmatrix}
+1 &amp; height_{1} \\
+1 &amp; height_{2} \\
+\vdots &amp; \vdots \\
+1 &amp; height_{N}
+\end{bmatrix}$</p>
+<ul>
+<li>$\theta_{0}$, Bias/Intercept term : (the value of $y$, when $x$ is set to zero)</li>
+<li>$\theta_{1}$, Slope term : (the increase in $y$, when $x$ is increased by 1 unit)</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gradio</span> <span class="k">as</span> <span class="nn">gr</span>
+
+<span class="n">weight_height_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"assets/2022-02-17-machine-learning-quiz2-practice/weight-height.csv"</span><span class="p">)</span>
+<span class="c1"># take 30 points</span>
+<span class="n">sampled_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">weight_height_df</span><span class="p">)),</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">weight_height_df</span> <span class="o">=</span> <span class="n">weight_height_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">sampled_idx</span><span class="p">][[</span><span class="s2">"Height"</span><span class="p">,</span> <span class="s2">"Weight"</span><span class="p">]]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">weight_height_df</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">plot_line</span><span class="p">(</span><span class="n">theta0</span><span class="p">,</span> <span class="n">theta1</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">weight_height_df</span><span class="p">[</span><span class="s2">"Height"</span><span class="p">]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">weight_height_df</span><span class="p">[</span><span class="s2">"Weight"</span><span class="p">]</span>
+
+<span class="n">gr</span><span class="o">.</span><span class="n">Interface</span><span class="p">(</span><span class="n">fn</span> <span class="o">=</span> <span class="n">plot_line</span><span class="p">,</span> <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"number"</span><span class="p">,</span> <span class="s2">"number"</span><span class="p">],</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">gr</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">Timeseries</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">live</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">launch</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Height</th>
+      <th>Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>601</th>
+      <td>67.115564</td>
+      <td>168.202167</td>
+    </tr>
+    <tr>
+      <th>4738</th>
+      <td>67.222467</td>
+      <td>176.538232</td>
+    </tr>
+    <tr>
+      <th>6375</th>
+      <td>66.157180</td>
+      <td>162.339164</td>
+    </tr>
+    <tr>
+      <th>9129</th>
+      <td>66.313844</td>
+      <td>139.141991</td>
+    </tr>
+    <tr>
+      <th>5347</th>
+      <td>67.098583</td>
+      <td>160.693330</td>
+    </tr>
+    <tr>
+      <th>8963</th>
+      <td>64.334788</td>
+      <td>161.746797</td>
+    </tr>
+    <tr>
+      <th>1393</th>
+      <td>68.342365</td>
+      <td>187.633463</td>
+    </tr>
+    <tr>
+      <th>2241</th>
+      <td>64.721622</td>
+      <td>150.619457</td>
+    </tr>
+    <tr>
+      <th>8061</th>
+      <td>65.118340</td>
+      <td>146.650334</td>
+    </tr>
+    <tr>
+      <th>2494</th>
+      <td>74.153065</td>
+      <td>212.276328</td>
+    </tr>
+    <tr>
+      <th>697</th>
+      <td>71.434727</td>
+      <td>206.594059</td>
+    </tr>
+    <tr>
+      <th>9641</th>
+      <td>65.858067</td>
+      <td>161.902044</td>
+    </tr>
+    <tr>
+      <th>7281</th>
+      <td>64.624289</td>
+      <td>138.112330</td>
+    </tr>
+    <tr>
+      <th>7222</th>
+      <td>63.126139</td>
+      <td>136.239929</td>
+    </tr>
+    <tr>
+      <th>142</th>
+      <td>66.206032</td>
+      <td>180.889555</td>
+    </tr>
+    <tr>
+      <th>651</th>
+      <td>70.661992</td>
+      <td>217.951883</td>
+    </tr>
+    <tr>
+      <th>8070</th>
+      <td>65.061414</td>
+      <td>131.588929</td>
+    </tr>
+    <tr>
+      <th>9735</th>
+      <td>66.691880</td>
+      <td>151.812907</td>
+    </tr>
+    <tr>
+      <th>9520</th>
+      <td>63.763403</td>
+      <td>136.230864</td>
+    </tr>
+    <tr>
+      <th>5421</th>
+      <td>63.291302</td>
+      <td>126.409991</td>
+    </tr>
+    <tr>
+      <th>1327</th>
+      <td>70.752647</td>
+      <td>202.741657</td>
+    </tr>
+    <tr>
+      <th>6761</th>
+      <td>67.462286</td>
+      <td>156.307311</td>
+    </tr>
+    <tr>
+      <th>2209</th>
+      <td>68.269014</td>
+      <td>196.843334</td>
+    </tr>
+    <tr>
+      <th>1523</th>
+      <td>70.886144</td>
+      <td>224.695162</td>
+    </tr>
+    <tr>
+      <th>8818</th>
+      <td>61.179601</td>
+      <td>130.410229</td>
+    </tr>
+    <tr>
+      <th>6839</th>
+      <td>59.809534</td>
+      <td>109.657437</td>
+    </tr>
+    <tr>
+      <th>8359</th>
+      <td>69.804817</td>
+      <td>174.027459</td>
+    </tr>
+    <tr>
+      <th>4692</th>
+      <td>73.706027</td>
+      <td>231.697887</td>
+    </tr>
+    <tr>
+      <th>2473</th>
+      <td>66.014958</td>
+      <td>169.099038</td>
+    </tr>
+    <tr>
+      <th>1993</th>
+      <td>65.513623</td>
+      <td>173.178827</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
+<span class="ansi-green-fg">/tmp/ipykernel_2235/1221736475.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span>     x <span class="ansi-blue-fg">=</span> weight_height_df<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">"Weight"</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span> 
+<span class="ansi-green-fg">---&gt; 13</span><span class="ansi-red-fg"> </span>gr<span class="ansi-blue-fg">.</span>Interface<span class="ansi-blue-fg">(</span>fn <span class="ansi-blue-fg">=</span> plot_line<span class="ansi-blue-fg">,</span> inputs <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">"number"</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">"number"</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> live <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">True</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>launch<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/anaconda3/lib/python3.9/site-packages/gradio/interface.py</span> in <span class="ansi-cyan-fg">__init__</span><span class="ansi-blue-fg">(self, fn, inputs, outputs, verbose, examples, examples_per_page, live, layout, show_input, show_output, capture_session, interpretation, num_shap, theme, repeat_outputs_per_model, title, description, article, thumbnail, css, height, width, allow_screenshot, allow_flagging, flagging_options, encrypt, show_tips, flagging_dir, analytics_enabled, server_name, server_port, enable_queue, api_mode, flagging_callback)</span>
+<span class="ansi-green-intense-fg ansi-bold">    168</span> 
+<span class="ansi-green-intense-fg ansi-bold">    169</span>         self<span class="ansi-blue-fg">.</span>input_components <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">[</span>get_input_instance<span class="ansi-blue-fg">(</span>i<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">for</span> i <span class="ansi-green-fg">in</span> inputs<span class="ansi-blue-fg">]</span>
+<span class="ansi-green-fg">--&gt; 170</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>output_components <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">[</span>get_output_instance<span class="ansi-blue-fg">(</span>o<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">for</span> o <span class="ansi-green-fg">in</span> outputs<span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">    171</span>         <span class="ansi-green-fg">if</span> repeat_outputs_per_model<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    172</span>             self<span class="ansi-blue-fg">.</span>output_components <span class="ansi-blue-fg">*=</span> len<span class="ansi-blue-fg">(</span>fn<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/anaconda3/lib/python3.9/site-packages/gradio/interface.py</span> in <span class="ansi-cyan-fg">&lt;listcomp&gt;</span><span class="ansi-blue-fg">(.0)</span>
+<span class="ansi-green-intense-fg ansi-bold">    168</span> 
+<span class="ansi-green-intense-fg ansi-bold">    169</span>         self<span class="ansi-blue-fg">.</span>input_components <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">[</span>get_input_instance<span class="ansi-blue-fg">(</span>i<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">for</span> i <span class="ansi-green-fg">in</span> inputs<span class="ansi-blue-fg">]</span>
+<span class="ansi-green-fg">--&gt; 170</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>output_components <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">[</span>get_output_instance<span class="ansi-blue-fg">(</span>o<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">for</span> o <span class="ansi-green-fg">in</span> outputs<span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">    171</span>         <span class="ansi-green-fg">if</span> repeat_outputs_per_model<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    172</span>             self<span class="ansi-blue-fg">.</span>output_components <span class="ansi-blue-fg">*=</span> len<span class="ansi-blue-fg">(</span>fn<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/anaconda3/lib/python3.9/site-packages/gradio/outputs.py</span> in <span class="ansi-cyan-fg">get_output_instance</span><span class="ansi-blue-fg">(iface)</span>
+<span class="ansi-green-intense-fg ansi-bold">    830</span>         <span class="ansi-green-fg">return</span> iface
+<span class="ansi-green-intense-fg ansi-bold">    831</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 832</span><span class="ansi-red-fg">         raise ValueError(
+</span><span class="ansi-green-intense-fg ansi-bold">    833</span>             <span class="ansi-blue-fg">"Output interface must be of type `str` or `dict` or"</span>
+<span class="ansi-green-intense-fg ansi-bold">    834</span>             <span class="ansi-blue-fg">"`OutputComponent` but is {}"</span><span class="ansi-blue-fg">.</span>format<span class="ansi-blue-fg">(</span>iface<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">ValueError</span>: Output interface must be of type `str` or `dict` or`OutputComponent` but is None</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">interact</span><span class="p">,</span> <span class="n">interactive</span><span class="p">,</span> <span class="n">fixed</span><span class="p">,</span> <span class="n">interact_manual</span>
+<span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">plot_func</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">freq</span><span class="p">)</span>
+    <span class="n">y2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">y2</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">val</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">interact</span><span class="p">(</span><span class="n">plot_func</span><span class="p">,</span> <span class="n">freq</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">FloatSlider</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mf">7.5</span><span class="p">,</span>
+                                               <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                               <span class="nb">max</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
+                                               <span class="n">step</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">val</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">FloatSlider</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mf">7.5</span><span class="p">,</span>
+                                               <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                               <span class="nb">max</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
+                                               <span class="n">step</span><span class="o">=</span><span class="mf">0.5</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;function __main__.plot_func(freq, val)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
 </div>
 
 

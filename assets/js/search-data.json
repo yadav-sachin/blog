@@ -24,7 +24,7 @@
   
     
         ,"post2": {
-            "title": "Most Frequest How-Tos",
+            "title": "Most Frequent How-Tos",
             "content": "The art of &quot;searching on internet&quot; is very crucial. Many times we face some technical tasks, which require us to frequently visit some blogs and Ask Ubuntu pages. So I thought of compiling some of the most common to-dos that I frequently search on the Internet. . How To Configure SSH Key-Based Authentication on a Remote Server . Saving your time to enter the password for SSH login into the remote machine every day. 😉 . https://www.digitalocean.com/community/tutorials/how-to-configure-ssh-key-based-authentication-on-a-linux-server . How to terminate Ubuntu under WSL . Sometimes WSL occupies a lot of memory and CPU usage. It does not gets killed once no longer used. . Short answer: wsl --shutdown in Windows terminal. (terminates all WSL distributions) . Long answer: https://askubuntu.com/questions/1131122/cant-restart-shutdown-ubuntu-under-wsl . How to enable &#39;blackcellmagic&#39; in VS Code Jupyter notebook? . %load_ext blackcellmagic . To use: . %%black . in code cell&#39;s beginning. .",
             "url": "https://yadav-sachin.github.io/blog/howto/2022/02/24/most-frequent-how-to.html",
             "relUrl": "/howto/2022/02/24/most-frequent-how-to.html",
@@ -46,7 +46,7 @@
   
     
         ,"post4": {
-            "title": "Most Frequest Python Code Snippets",
+            "title": "Most Frequent Python Code Snippets",
             "content": "Matplotlib . Global Settings: Graph Style and Font Size . https://towardsdatascience.com/a-simple-guide-to-beautiful-visualizations-in-python-f564e6b9d392 | ggplot and fivethirtyeight are nice matplotlib styles. | . import matplotlib.pyplot as plt import seaborn as sns . sns.set_style(&#39;darkgrid&#39;) # darkgrid, white grid, dark, white and ticks plt.rc(&#39;axes&#39;, titlesize=18) # fontsize of the axes title plt.rc(&#39;axes&#39;, labelsize=14) # fontsize of the x and y labels plt.rc(&#39;xtick&#39;, labelsize=13) # fontsize of the tick labels plt.rc(&#39;ytick&#39;, labelsize=13) # fontsize of the tick labels plt.rc(&#39;legend&#39;, fontsize=13) # legend fontsize plt.rc(&#39;font&#39;, size=13) # controls default text sizes . plt.style.use(&quot;ggplot&quot;) sns.set_palette(&#39;deep&#39;, 8, color_codes = True) . Subplots, title, axis, legend . fig, ax = plt.subplots(nrows=1,ncols=2, figsize=(12, 5), tight_layout=True) # seaborn ax = sns.histplot(..., palette=&#39;Set2&#39;, linewidth=2) # seaborn will have either the color or palette parameters available (it depends on the plot) #seaborn ax.set(title=&#39;Barplot&#39;, xlabel=&#39;Nationality&#39;, ylabel=&#39;Average Rating&#39;) . Matplotlib Animations . from matplotlib.animation import FuncAnimation from matplotlib import animation from matplotlib import rc rc(&#39;animation&#39;, html=&#39;jshtml&#39;) . anim = FuncAnimation(fig, change_plot, frn, fargs=(Z, plot), interval=1000 / fps) # Close the figure, otherwise would show as duplicate below animation plt.close() display(anim) . mywriter = animation.PillowWriter(fps=fps) anim.save(&#39;gif_name.gif&#39;,writer=mywriter) .",
             "url": "https://yadav-sachin.github.io/blog/python/code/2022/02/24/common-python-snippets.html",
             "relUrl": "/python/code/2022/02/24/common-python-snippets.html",

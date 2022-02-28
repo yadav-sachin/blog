@@ -10,14 +10,14 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Sachin Yadav’s blog" />
 <meta property="og:description" content="Sachin Yadav’s blog" />
-<link rel="canonical" href="https://yadav-sachin.github.io/blog/about/" />
-<meta property="og:url" content="https://yadav-sachin.github.io/blog/about/" />
+<link rel="canonical" href="https://yadav-sachin.github.io/blog/https:/yadav-sachin.github.io" />
+<meta property="og:url" content="https://yadav-sachin.github.io/blog/https:/yadav-sachin.github.io" />
 <meta property="og:site_name" content="Sachin Yadav" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="About Me" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","description":"Sachin Yadav’s blog","headline":"About Me","name":"Sachin Yadav","url":"https://yadav-sachin.github.io/blog/about/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"Sachin Yadav’s blog","headline":"About Me","url":"https://yadav-sachin.github.io/blog/https:/yadav-sachin.github.io"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://yadav-sachin.github.io/blog/feed.xml" title="Sachin Yadav" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -95,7 +95,7 @@ window.onload = wrap_img;
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+        <div class="trigger"><a class="page-link" href="/blog/https:/yadav-sachin.github.io">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">

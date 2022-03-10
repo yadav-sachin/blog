@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Fetching Air Quality OpenAQ data | Sachin Yadav’s blog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Fetching Air Quality OpenAQ data" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Programmatically fetch and parse air quality dataset from OpenAQ" />
+<meta property="og:description" content="Programmatically fetch and parse air quality dataset from OpenAQ" />
+<link rel="canonical" href="https://yadav-sachin.github.io/blog/openaq/datasets/2022/03/10/open-aq-data.html" />
+<meta property="og:url" content="https://yadav-sachin.github.io/blog/openaq/datasets/2022/03/10/open-aq-data.html" />
+<meta property="og:site_name" content="Sachin Yadav’s blog" />
+<meta property="og:image" content="https://yadav-sachin.github.io/blog/images/thumbnails/openaq.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-10T00:00:00-06:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://yadav-sachin.github.io/blog/images/thumbnails/openaq.png" />
+<meta property="twitter:title" content="Fetching Air Quality OpenAQ data" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-03-10T00:00:00-06:00","datePublished":"2022-03-10T00:00:00-06:00","description":"Programmatically fetch and parse air quality dataset from OpenAQ","headline":"Fetching Air Quality OpenAQ data","image":"https://yadav-sachin.github.io/blog/images/thumbnails/openaq.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://yadav-sachin.github.io/blog/openaq/datasets/2022/03/10/open-aq-data.html"},"url":"https://yadav-sachin.github.io/blog/openaq/datasets/2022/03/10/open-aq-data.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://yadav-sachin.github.io/blog/feed.xml" title="Sachin Yadav's blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-10JE0JXKGJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-10JE0JXKGJ');
+</script>
+
+
+<link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.png"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" /><script src="https://hypothes.is/embed.js" async></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">Sachin Yadav&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Fetching Air Quality OpenAQ data</h1><p class="page-description">Programmatically fetch and parse air quality dataset from OpenAQ</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-03-10T00:00:00-06:00" itemprop="datePublished">
+        Mar 10, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#openaq">openaq</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#datasets">datasets</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/yadav-sachin/blog/tree/master/_notebooks/2022-03-10-open-aq-data.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/yadav-sachin/blog/master?filepath=_notebooks%2F2022-03-10-open-aq-data.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/yadav-sachin/blog/blob/master/_notebooks/2022-03-10-open-aq-data.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Fyadav-sachin%2Fblog%2Fblob%2Fmaster%2F_notebooks%2F2022-03-10-open-aq-data.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/blog/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Downloading-Dataset">Downloading Dataset </a></li>
+<li class="toc-entry toc-h2"><a href="#Parsing-downloaded-data">Parsing downloaded data </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-03-10-open-aq-data.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For accessing the data from the Amazon S3 service, we will use <code>boto3</code> and <code>botocore</code> libraries.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> pip3 install -q boto3 botocore
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="c1"># for using Amazon S3</span>
+<span class="kn">import</span> <span class="nn">boto3</span>
+<span class="kn">import</span> <span class="nn">botocore</span>
+
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">clear_output</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">gzip</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">OpenAQData</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">download_path</span><span class="p">,</span> <span class="n">bucket_name</span><span class="o">=</span><span class="s2">"openaq-fetches"</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"realtime-gzipped/"</span>
+    <span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Initialize class object.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        download_path : str</span>
+<span class="sd">            The path for the download directory.</span>
+<span class="sd">        bucket_name : str</span>
+<span class="sd">            The S3 bucket name containng the dataset (the default is "openaq-fetches",)</span>
+<span class="sd">        prefix : str</span>
+<span class="sd">            Directory of the required data in the bucket. (the default is "realtime-gzipped/")</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">download_path</span> <span class="o">=</span> <span class="n">download_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bucket_name</span> <span class="o">=</span> <span class="n">bucket_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span>
+
+    <span class="k">def</span> <span class="nf">download_data_date_specific</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curr_date</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Downloads air quality data for specific date</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        curr_date : pandas date-time</span>
+<span class="sd">            The date-time for which data needs to be downloaded</span>
+<span class="sd">            From the date-time, the corresponding date is extracted.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Downloading: </span><span class="si">{</span><span class="n">curr_date</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="c1"># Extract the date from YYYY-MM-DD HH:MM:SS string</span>
+            <span class="n">curr_date_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">curr_date</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">data_date_prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">curr_date_str</span>
+            <span class="n">s3</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
+                <span class="s2">"s3"</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">botocore</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="n">signature_version</span><span class="o">=</span><span class="n">botocore</span><span class="o">.</span><span class="n">UNSIGNED</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">curr_date_data_dict</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">list_objects</span><span class="p">(</span>
+                <span class="n">Bucket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">Prefix</span><span class="o">=</span><span class="n">data_date_prefix</span>
+            <span class="p">)</span>
+
+            <span class="c1"># If the current date data is not present in the bucket data</span>
+            <span class="k">if</span> <span class="s2">"Contents"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">curr_date_data_dict</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---------- Unable to fetch Date: </span><span class="si">{</span><span class="n">curr_date</span><span class="si">}</span><span class="s2">----------"</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">file_obj</span> <span class="ow">in</span> <span class="n">curr_date_data_dict</span><span class="p">[</span><span class="s2">"Contents"</span><span class="p">]:</span>
+                <span class="n">file_obj_name</span> <span class="o">=</span> <span class="n">file_obj</span><span class="p">[</span><span class="s2">"Key"</span><span class="p">]</span>
+                <span class="n">file_download_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">download_path</span><span class="p">,</span> <span class="n">file_obj_name</span><span class="p">)</span>
+                <span class="n">file_download_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">file_download_path</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_download_dir</span><span class="p">):</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">file_download_dir</span><span class="p">)</span>
+
+                <span class="n">s3</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
+                    <span class="s2">"s3"</span><span class="p">,</span>
+                    <span class="n">config</span><span class="o">=</span><span class="n">botocore</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="n">signature_version</span><span class="o">=</span><span class="n">botocore</span><span class="o">.</span><span class="n">UNSIGNED</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="n">s3</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">file_obj_name</span><span class="p">,</span> <span class="n">file_download_path</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Completed: </span><span class="si">{</span><span class="n">curr_date</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">curr_date</span><span class="si">}</span><span class="s2"> "</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">download_data</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">num_multiprocess_pool</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Downloads air quality data from start_data to end_date (both inclusive).</span>
+<span class="sd">        Stores the downloaded data at the self.download_path + "realtime-gzipped" directory.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start_date : str</span>
+<span class="sd">            Starting date, Format 'yyyy-mm-dd' (inclusive)</span>
+<span class="sd">        end_date : str</span>
+<span class="sd">            Ending date, Format 'yyyy-mm-dd' (inclusive)</span>
+<span class="sd">        verbose : bool, optional</span>
+<span class="sd">            The default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---------- Downloading:----------"</span><span class="p">)</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">num_multiprocess_pool</span><span class="p">)</span>
+        <span class="n">n_total_iterations</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end_date</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span>
+            <span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">download_data_date_specific</span><span class="p">,</span>
+                <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end_date</span><span class="p">),</span>
+            <span class="p">),</span>
+            <span class="n">total</span><span class="o">=</span><span class="n">n_total_iterations</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"------------Checking Missing Files ... ----------------"</span><span class="p">)</span>
+        <span class="p">(</span>
+            <span class="n">missing_dates_after_download</span><span class="p">,</span>
+            <span class="n">missing_files_after_download</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_missing_data</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"---------- Missing Dates : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">missing_dates_after_download</span><span class="p">)</span><span class="si">}</span><span class="s2"> Dates Missing----------"</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing_dates_after_download</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Missing Dates are ::</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="o">*</span><span class="n">missing_dates_after_download</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"---------- Missing Files : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">missing_files_after_download</span><span class="p">)</span><span class="si">}</span><span class="s2"> files Missing----------"</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing_files_after_download</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Missing Files are ::</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="o">*</span><span class="n">missing_files_after_download</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">find_missing_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Checks and returns all the missing data filenames in the date range from start_date to end_date (both inclusive).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start_date : str</span>
+<span class="sd">            Starting date, Format 'yyyy/mm/dd' (inclusive)</span>
+<span class="sd">        end_date : str</span>
+<span class="sd">            Ending date, Format 'yyyy/mm/dd' (inclusive)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ----------</span>
+<span class="sd">        List (str)</span>
+<span class="sd">            List of the names of the missing files</span>
+<span class="sd">        """</span>
+        <span class="n">dates_missing_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">files_missing_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">s3</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
+            <span class="s2">"s3"</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">botocore</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="n">signature_version</span><span class="o">=</span><span class="n">botocore</span><span class="o">.</span><span class="n">UNSIGNED</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">curr_date</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end_date</span><span class="p">)):</span>
+            <span class="n">curr_date_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">curr_date</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">data_date_prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">curr_date_str</span>
+            <span class="n">curr_date_data_dict</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">list_objects</span><span class="p">(</span>
+                <span class="n">Bucket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">Prefix</span><span class="o">=</span><span class="n">data_date_prefix</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="s2">"Contents"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">curr_date_data_dict</span><span class="p">:</span>
+                <span class="n">dates_missing_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">curr_date_str</span><span class="p">]</span>
+                <span class="k">continue</span>
+
+            <span class="k">for</span> <span class="n">file_obj</span> <span class="ow">in</span> <span class="n">curr_date_data_dict</span><span class="p">[</span><span class="s2">"Contents"</span><span class="p">]:</span>
+                <span class="n">file_obj_name</span> <span class="o">=</span> <span class="n">file_obj</span><span class="p">[</span><span class="s2">"Key"</span><span class="p">]</span>
+                <span class="n">file_download_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">download_path</span><span class="p">,</span> <span class="n">file_obj_name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_download_path</span><span class="p">):</span>
+                    <span class="n">files_missing_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">file_obj_name</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">dates_missing_list</span><span class="p">,</span> <span class="n">files_missing_list</span>
+
+    <span class="k">def</span> <span class="nf">parse_downloaded_data_folder_wise_required_cities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Parses downloaded data for the specific folder.</span>
+<span class="sd">        Only parses if the data is of date between self.start_date and self.end_date</span>
+<span class="sd">        Filters the data only if city in the self.required_cities list.</span>
+<span class="sd">        The parsed data is stored in "parsed" directory in self.download_path</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        args : arguments</span>
+<span class="sd">            root_path, dirnames, filenames</span>
+<span class="sd">            root_path: The current directory path under consideration</span>
+<span class="sd">            dirnames: List of directory names directly in root_path</span>
+<span class="sd">            filenames: List of filenames directly in root_path</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">root_path</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">filenames</span> <span class="o">=</span> <span class="n">args</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">curr_date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">root_path</span><span class="p">))</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">curr_date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s2">"9999-01-01"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">curr_date</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_date</span> <span class="ow">or</span> <span class="n">curr_date</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_date</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Parsing: </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">root_path</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="n">dataframes_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">".ndjson.gz"</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">:</span>
+                    <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_path</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+                    <span class="n">json_objs</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">jl_file</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">jl_file</span><span class="p">:</span>
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="n">new_json_obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                                <span class="n">json_objs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">new_json_obj</span><span class="p">]</span>
+                            <span class="k">except</span><span class="p">:</span>
+                                <span class="k">pass</span>
+                    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">json_objs</span><span class="p">)</span>
+                    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"city"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">required_cities</span><span class="p">)</span>
+                    <span class="n">dataframes_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            <span class="n">combined_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dataframes_list</span><span class="p">)</span>
+            <span class="n">combined_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">download_path</span><span class="p">,</span>
+                    <span class="s2">"parsed"</span><span class="p">,</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">root_path</span><span class="p">)</span> <span class="o">+</span> <span class="s2">".csv.gz"</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">compression</span><span class="o">=</span><span class="s2">"gzip"</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Completed Parsing: </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">root_path</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">root_path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">parse_downloaded_data_required_cities</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">start_date</span><span class="p">,</span>
+        <span class="n">end_date</span><span class="p">,</span>
+        <span class="n">num_multiprocess_pool</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">required_cities</span><span class="o">=</span><span class="p">[</span><span class="s2">"Delhi"</span><span class="p">],</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Parses downloaded data.</span>
+<span class="sd">        Only parses if the data is of date between self.start_date and self.end_date (both inclusive)</span>
+<span class="sd">        Filters the data only if city in the self.required_cities list.</span>
+<span class="sd">        The parsed data is stored in "parsed" directory in self.download_path</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start_date : str</span>
+<span class="sd">            In format 'yyyy/mm/dd'.</span>
+<span class="sd">        end_date : str</span>
+<span class="sd">            In format 'yyyy/mm/dd'</span>
+<span class="sd">        num_multiprocess_pool : int, optional</span>
+<span class="sd">            The number of pool processes in multi-processing. (the default is 5)</span>
+<span class="sd">        required_cities : list[str], optional</span>
+<span class="sd">            The parsed data would contain data for only the cities in required_cities_list. (Case-sensitive) (The default is ["Delhi",])</span>
+<span class="sd">        verbose : bool, optional</span>
+<span class="sd">            The default is False.</span>
+
+
+<span class="sd">        Returns</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">end_date</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">required_cities</span> <span class="o">=</span> <span class="n">required_cities</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">download_path</span><span class="p">,</span> <span class="s2">"parsed"</span><span class="p">)):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">download_path</span><span class="p">,</span> <span class="s2">"parsed"</span><span class="p">))</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">num_multiprocess_pool</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"---------- Parsing:----------"</span><span class="p">)</span>
+        <span class="n">n_total_iterations</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end_date</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span>
+            <span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parse_downloaded_data_folder_wise_required_cities</span><span class="p">,</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">download_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">)),</span>
+            <span class="p">),</span>
+            <span class="n">total</span><span class="o">=</span><span class="n">n_total_iterations</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"----------:Parsing Completed----------"</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">find_missing_parsed_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Checks and returns all the missing parsed data dates in the date range from start_date to end_date (both inclusive).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start_date : str</span>
+<span class="sd">            Starting date, Format 'yyyy/mm/dd' (inclusive)</span>
+<span class="sd">        end_date : str</span>
+<span class="sd">            Ending date, Format 'yyyy/mm/dd' (inclusive)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ----------</span>
+<span class="sd">        List (str)</span>
+<span class="sd">            List of the dates with missing parsed data</span>
+<span class="sd">        """</span>
+        <span class="n">parsed_files_list</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">download_path</span><span class="p">,</span> <span class="s2">"parsed"</span><span class="p">))</span>
+        <span class="n">parsed_files_list</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">filename</span> <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">parsed_files_list</span> <span class="k">if</span> <span class="s2">".csv.gz"</span> <span class="ow">in</span> <span class="n">filename</span>
+        <span class="p">]</span>
+
+        <span class="n">missing_dates_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">parsed_filename</span> <span class="ow">in</span> <span class="n">parsed_files_list</span><span class="p">:</span>
+            <span class="n">file_date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">parsed_filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">file_date</span> <span class="ow">in</span> <span class="n">missing_dates_list</span><span class="p">:</span>
+                <span class="n">missing_dates_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">file_date</span><span class="p">)</span>
+
+        <span class="n">missing_dates_list</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">date_time</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">date_time</span> <span class="ow">in</span> <span class="n">missing_dates_list</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">missing_dates_list</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We will start with Air Quality data for "Delhi" for the month of February 2021</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+    <span class="c1">## Download ##</span>
+
+    <span class="c1"># Data for date range from start_date to end_date (both inclusive)</span>
+    <span class="n">start_date</span> <span class="o">=</span> <span class="s2">"2021/02/01"</span>
+    <span class="n">end_date</span> <span class="o">=</span> <span class="s2">"2021/02/28"</span>
+    <span class="c1"># Number of simulatenous cores to use in multi-processing</span>
+    <span class="n">num_multiprocess_pool</span> <span class="o">=</span> <span class="mi">64</span>
+    <span class="c1"># Download directory path</span>
+    <span class="n">download_path</span> <span class="o">=</span> <span class="s2">"./data/"</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1">## Parsing ##</span>
+
+    <span class="c1"># The cities required in the final parsed data</span>
+    <span class="n">required_cities</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">"Delhi"</span><span class="p">,</span>
+    <span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Downloading-Dataset">
+<a class="anchor" href="#Downloading-Dataset" aria-hidden="true"><span class="octicon octicon-link"></span></a>Downloading Dataset<a class="anchor-link" href="#Downloading-Dataset"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First we start with downloading the data.<br>
+The dataset would be in form of ndjson files (json lines format)
+In our code, we are using <code>multi-processing</code> library for parallelising the downloading as well as parsing process.</p>
+<p>Once downloading is complete, a check is run to list all of the missing files, if any.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">open_aq</span> <span class="o">=</span> <span class="n">OpenAQData</span><span class="p">(</span><span class="n">download_path</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">download_path</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">open_aq</span><span class="o">.</span><span class="n">download_data</span><span class="p">(</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">start_date</span><span class="p">,</span>
+    <span class="n">end_date</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">end_date</span><span class="p">,</span>
+    <span class="n">num_multiprocess_pool</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">num_multiprocess_pool</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">verbose</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>---------- Downloading:----------
+---------- Unable to fetch Date: 2021-02-28 00:00:00----------
+Error: 'Contents' for 2021-02-28 00:00:00 
+---------- Unable to fetch Date: 2021-02-20 00:00:00----------
+Error: 'Contents' for 2021-02-20 00:00:00 
+------------Checking Missing Files ... ----------------
+---------- Missing Dates : 2 Dates Missing----------
+Missing Dates are ::
+ 2021-02-20 2021-02-28
+---------- Missing Files : 0 files Missing----------
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In above cell, we dowloaded data for February 2021.</p>
+<p>As we can see in the output. For the month of February data is missing for two dates:</p>
+<ul>
+<li>20 February 2022</li>
+<li>28 February 2022</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">missing_dates_list</span><span class="p">,</span> <span class="n">missing_files_list</span> <span class="o">=</span> <span class="n">open_aq</span><span class="o">.</span><span class="n">find_missing_data</span><span class="p">(</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">end_date</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">missing_dates_list</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>['2021-02-20', '2021-02-28']</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">missing_files_list</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Parsing-downloaded-data">
+<a class="anchor" href="#Parsing-downloaded-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parsing downloaded data<a class="anchor-link" href="#Parsing-downloaded-data"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For a single date, the data is distributed in multiple ndjson (json lines) format files.</p>
+<p>We now parse the overall dataset and store the data is <code>csv</code> format.
+Also as the whole dataset is very large, we will only store results for specific required cities such as Delhi here.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">open_aq</span><span class="o">.</span><span class="n">parse_downloaded_data_required_cities</span><span class="p">(</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">start_date</span><span class="p">,</span>
+    <span class="n">end_date</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">end_date</span><span class="p">,</span>
+    <span class="n">num_multiprocess_pool</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">num_multiprocess_pool</span><span class="p">,</span>
+    <span class="n">required_cities</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">required_cities</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">verbose</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>---------- Parsing:----------
+----------:Parsing Completed----------
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">open_aq</span><span class="o">.</span><span class="n">find_missing_parsed_files</span><span class="p">(</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">end_date</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>['2021-02-20', '2021-02-28']</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As seen earlier, after parsing data, the data is currently missing for dates:</p>
+<ul>
+<li>20 February</li>
+<li>28 February 
+for the month of February 2021.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So the dataset is now ready for us to do our investigations.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="yadav-sachin/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://yadav-sachin.github.io/blog/openaq/datasets/2022/03/10/open-aq-data.html';
+      this.page.identifier = 'https://yadav-sachin.github.io/blog/openaq/datasets/2022/03/10/open-aq-data.html';
+    };
+    (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://sachin-yadavs-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+<a class="u-url" href="/blog/openaq/datasets/2022/03/10/open-aq-data.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Blog</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/yadav-sachin" target="_blank" title="yadav-sachin"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/sachin_yadav8" target="_blank" title="sachin_yadav8"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -434,7 +434,7 @@ window.onload = wrap_img;
                             <span class="k">except</span><span class="p">:</span>
                                 <span class="k">pass</span>
                     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">json_objs</span><span class="p">)</span>
-                    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"city"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">required_cities</span><span class="p">)</span>
+                    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">"city"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">required_cities</span><span class="p">)]</span>
                     <span class="n">dataframes_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
             <span class="n">combined_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dataframes_list</span><span class="p">)</span>
             <span class="n">combined_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
